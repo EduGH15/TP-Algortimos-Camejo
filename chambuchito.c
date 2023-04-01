@@ -11,14 +11,14 @@ void preguntar_medida_sandwich(float* medida){
 
 void preguntar_tipo_pan(char* pan){
     while(*pan != 'B' && *pan != 'I' && *pan != 'A' && *pan != 'Q'){
-        printf("¿Qué pan desea en su chambuchito? Pan Blaco [B], Pan Integral[I], Avena y Miel[A], Queso y Orégano[Q]:\n");
+        printf("¿Qué pan desea en su chambuchito? Las opciones son Pan Blaco [B], Pan Integral[I], Avena y Miel[A], Queso y Orégano[Q]:\n");
         scanf(" %c", pan);
     }
 } 
 
 void preguntar_tipo_queso(char* queso){
     while(*queso != 'D' && *queso != 'C' && *queso != 'G' && *queso != 'S'){
-        printf("¿Qué queso querés en tu chambuchito? Dambo[D], Cheddar[C], Gruyere[G], Sin Queso[S]:\n");
+        printf("¿Qué queso querés en tu chambuchito? Las opciones son Dambo[D], Cheddar[C], Gruyere[G], Sin Queso[S]:\n");
         scanf(" %c", queso);
     }
 }
@@ -71,7 +71,7 @@ void asignar_precio_proteina(char producto, float* precio){
 }
 
 int main(){
-    float medida = 0, precio = 0, precio_total = 0;
+    float medida = 0, precio = 0;
     char pan = ' ', queso = ' ', proteina = ' ', calentar = ' ';
 
     preguntar_medida_sandwich(&medida);
@@ -89,7 +89,6 @@ int main(){
         preguntar_si_calienta_comida(&calentar);
     }
 
-    precio_total = precio * (0.3 * medida);
-    printf("%f", precio_total);
-   
+    int total = (int)((double) (precio * medida) * 0.3);
+    printf("El precio total es: -%i-\n", total);
 }
