@@ -1,9 +1,11 @@
 #include <stdio.h>
 
-void preguntar_medida_sandwich(int* medida){
+const float PRECIO_BASICO = 5, PRECIO_ESPECIAL = 8, PRECIO_ROAST = 7, PRECIO_ATUN = 9, PRECIO_POLLO = 5, PRECIO_SOJA = 3;
+
+void preguntar_medida_sandwich(float* medida){
     while(*medida < 15 || *medida > 30){
         printf("¿De que medida desea su chambuchito? Ingrese un número entre el 15 y el 30 (inclusives):\n");
-        scanf("%i", medida);
+        scanf("%f", medida);
     }
 }
 
@@ -35,23 +37,59 @@ void preguntar_si_calienta_comida(char* calentar){
     }
 }
 
+void asignar_precio(char producto, float* precio){
+    switch(producto){
+        case 'B':
+        case 'I':
+        case 'D':
+        case 'C':
+            *precio += PRECIO_BASICO;
+            break;
+        case 'A':
+        case 'Q':
+        case 'G':
+            *precio += PRECIO_ESPECIAL;
+            break;
+    }
+}
+
+void asignar_precio_proteina(char producto, float* precio){
+    switch(producto){
+        case 'R':
+            *precio += PRECIO_ROAST;
+            break;
+        case 'A':
+            *precio += PRECIO_ATUN;
+            break;
+        case 'P':
+            *precio += PRECIO_POLLO;
+            break;
+        case 'S':
+            *precio += PRECIO_SOJA;
+            break;
+    }
+}
+
 int main(){
-    int medida = 0;
-    char pan = ' ';
-    char queso = ' ';
-    char proteina = ' ';
-    char calentar = ' ';
-    int precio_total = 0;
+    float medida = 0, precio = 0, precio_total = 0;
+    char pan = ' ', queso = ' ', proteina = ' ', calentar = ' ';
 
     preguntar_medida_sandwich(&medida);
+
     preguntar_tipo_pan(&pan);
+    asignar_precio(pan, &precio);
+
     preguntar_tipo_queso(&queso);
+    asignar_precio(queso, &precio);
+   
     preguntar_tipo_proteina(&proteina);
+    asignar_precio_proteina(proteina, &precio);
+   
     if(proteina != 'A'){
         preguntar_si_calienta_comida(&calentar);
     }
-    /*printf("%i, %c, %c, %c, %c\n", medida, pan, queso, proteina, calentar);*/
-    
-    
-    return 0;
+
+    precio_total = precio * (0.3 * medida);
+    printf("%f", precio_total);
+   
 }
