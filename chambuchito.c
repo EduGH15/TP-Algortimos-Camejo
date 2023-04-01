@@ -16,8 +16,22 @@ void preguntar_tipo_pan(char* pan){
 
 void preguntar_tipo_queso(char* queso){
     while(*queso != 'D' && *queso != 'C' && *queso != 'G' && *queso != 'S'){
-        printf("¿Qué queso querés en tu chambuchito? Dambo[D], Cheddar[C], Gruyere[G], Sin Queso[S]\n");
+        printf("¿Qué queso querés en tu chambuchito? Dambo[D], Cheddar[C], Gruyere[G], Sin Queso[S]:\n");
         scanf(" %c", queso);
+    }
+}
+
+void preguntar_tipo_proteina(char* proteina){
+    while(*proteina != 'R' && *proteina != 'A' && *proteina != 'S' && *proteina != 'P' && *proteina != 'N'){
+        printf("¿Qué proteina querés en tu chambuchito? Las opciones son Roast Beef[R], Atún[A], Soja[S], Pollito[P], Nada de Prote[N]:\n");
+        scanf(" %c", proteina);
+    }
+}
+
+void preguntar_si_calienta_comida(char* calentar){
+    while(*calentar != 'S' && *calentar != 'N'){
+        printf("¿Deseás tu chambuchito caliente? Las opciones son Si[S] o No[N]:\n");
+        scanf(" %c", calentar);
     }
 }
 
@@ -32,6 +46,12 @@ int main(){
     preguntar_medida_sandwich(&medida);
     preguntar_tipo_pan(&pan);
     preguntar_tipo_queso(&queso);
+    preguntar_tipo_proteina(&proteina);
+    if(proteina != 'A'){
+        preguntar_si_calienta_comida(&calentar);
+    }
+    /*printf("%i, %c, %c, %c, %c\n", medida, pan, queso, proteina, calentar);*/
+    
     
     return 0;
 }
