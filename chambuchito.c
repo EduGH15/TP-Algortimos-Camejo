@@ -1,35 +1,70 @@
 #include <stdio.h>
 
-const float PRECIO_BASICO = 5, PRECIO_ESPECIAL = 8, PRECIO_ROAST = 7, PRECIO_ATUN = 9, PRECIO_POLLO = 5, PRECIO_SOJA = 3;
+#define BLANCO 'B'
+#define INTEGRAL 'I'
+#define AVENA_MIEL 'A'
+#define QUESO_OREGANO 'Q'
+#define DAMBO 'D'
+#define CHEDDAR 'C'
+#define GRUYERE 'G'
+#define SIN_QUESO 'S'
+#define ROAST 'R'
+#define ATUN 'A'
+#define POLLO 'P'
+#define SOJA 'S'
+#define NADA_PROTE 'N'
 
+const float PRECIO_BASICO = 5, PRECIO_ESPECIAL = 8, PRECIO_ROAST = 7, PRECIO_ATUN = 9, PRECIO_POLLO = 5, PRECIO_SOJA = 3;
+const float MINIMO = 15, MAXIMO = 30;
+
+/*
+Pre: -----------------------------
+Pos: Carga la variable medida con valores válidos.
+*/
 void preguntar_medida_sandwich(float* medida){
-    while(*medida < 15 || *medida > 30){
+    while(*medida < MINIMO || *medida > MAXIMO){
         printf("¿De que medida desea su chambuchito? Ingrese un número entre el 15 y el 30 (inclusives):\n");
         scanf("%f", medida);
     }
 }
 
+/*
+Pre: -------------------------------
+Pos: Carga la variable pan con valores válidos.
+*/
 void preguntar_tipo_pan(char* pan){
-    while(*pan != 'B' && *pan != 'I' && *pan != 'A' && *pan != 'Q'){
+    while(*pan != BLANCO && *pan != INTEGRAL && *pan != AVENA_MIEL && *pan != QUESO_OREGANO){
         printf("¿Qué pan desea en su chambuchito? Las opciones son Pan Blaco [B], Pan Integral[I], Avena y Miel[A], Queso y Orégano[Q]:\n");
         scanf(" %c", pan);
     }
 } 
 
+/*
+Pre: -------------------------------------------
+Pos: Carga la variable queso con valores válidos.
+*/
 void preguntar_tipo_queso(char* queso){
-    while(*queso != 'D' && *queso != 'C' && *queso != 'G' && *queso != 'S'){
+    while(*queso != DAMBO && *queso != CHEDDAR && *queso != GRUYERE && *queso != SIN_QUESO){
         printf("¿Qué queso querés en tu chambuchito? Las opciones son Dambo[D], Cheddar[C], Gruyere[G], Sin Queso[S]:\n");
         scanf(" %c", queso);
     }
 }
 
+/*
+Pre: ------------------------------------------------
+Pos:Carga la variable proteina con valores válidos.
+*/
 void preguntar_tipo_proteina(char* proteina){
-    while(*proteina != 'R' && *proteina != 'A' && *proteina != 'S' && *proteina != 'P' && *proteina != 'N'){
+    while(*proteina != ROAST && *proteina != ATUN && *proteina != SOJA && *proteina != POLLO && *proteina != NADA_PROTE){
         printf("¿Qué proteina querés en tu chambuchito? Las opciones son Roast Beef[R], Atún[A], Soja[S], Pollito[P], Nada de Prote[N]:\n");
         scanf(" %c", proteina);
     }
 }
 
+/*
+Pre: ---------------------------------------------------
+Pos: Carga la variable calentar con valores válidos.
+*/
 void preguntar_si_calienta_comida(char* calentar){
     while(*calentar != 'S' && *calentar != 'N'){
         printf("¿Deseás tu chambuchito caliente? Las opciones son Si[S] o No[N]:\n");
@@ -37,34 +72,42 @@ void preguntar_si_calienta_comida(char* calentar){
     }
 }
 
+/*
+Pre: ----------------------------------------------
+Pos: Carga la variable precio con su valor correspondiente
+*/
 void asignar_precio(char producto, float* precio){
     switch(producto){
-        case 'B':
-        case 'I':
-        case 'D':
-        case 'C':
+        case BLANCO:
+        case INTEGRAL:
+        case DAMBO:
+        case CHEDDAR:
             *precio += PRECIO_BASICO;
             break;
-        case 'A':
-        case 'Q':
-        case 'G':
+        case AVENA_MIEL:
+        case QUESO_OREGANO:
+        case GRUYERE:
             *precio += PRECIO_ESPECIAL;
             break;
     }
 }
 
+/*
+Pre: ----------------------------------------------
+Pos: Carga la variable precio con su valor correspondiente
+*/
 void asignar_precio_proteina(char producto, float* precio){
     switch(producto){
-        case 'R':
+        case ROAST:
             *precio += PRECIO_ROAST;
             break;
-        case 'A':
+        case ATUN:
             *precio += PRECIO_ATUN;
             break;
-        case 'P':
+        case POLLO:
             *precio += PRECIO_POLLO;
             break;
-        case 'S':
+        case SOJA:
             *precio += PRECIO_SOJA;
             break;
     }
@@ -89,6 +132,8 @@ int main(){
         preguntar_si_calienta_comida(&calentar);
     }
 
-    int total = (int)((double) (precio * medida) * 0.3);
+    int total = (int)((double)(precio * medida) * 0.3);
     printf("El precio total es: -%i-\n", total);
+
+    return 0;
 }
