@@ -107,18 +107,18 @@ void sumar_al_precio(char producto, float* precio_producto){
 
 /*
 Pre: ----------------------------------------------
-Pos: Cambia el valor del producto (con opciones que elige el usuario) por alguna constante auxiliar
+Pos: Cambia el valor del producto (con opciones que elige el usuario) por alguna constante auxiliar (que no se repita en el switch)
 */
 void redefinir_valor_de_producto(char* producto, char letra){
     *producto = letra;
 }
 
 /*
-Pre: Debe recibir las variables con valores válidos
+Pre: Debe recibir las variables con valores válidos (medida toma valores entre 15 y 30 inclusives).
 Post: Devuelve el precio total del sandwich como dato de tipo entero
 */
 int calcular_total(float precio, float medida){
-    return (int)((double)(precio * medida) * CONSTANTE);
+    return (int)(precio * medida * CONSTANTE);
 }
 
 int main(){
