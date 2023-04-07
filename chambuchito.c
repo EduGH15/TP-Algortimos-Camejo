@@ -13,9 +13,10 @@
 #define POLLO 'P'
 #define SOJA 'S'
 #define NADA_PROTE 'N'
+#define AUXILIAR_1 'X'
+#define AUXILIAR_2 'Y'
 
-const float PRECIO_BASICO = 5, PRECIO_ESPECIAL = 8, PRECIO_ROAST = 7, PRECIO_ATUN = 9, PRECIO_POLLO = 5, PRECIO_SOJA = 3;
-const float MINIMO = 15, MAXIMO = 30;
+const float PRECIO_BASICO = 5, PRECIO_ESPECIAL = 8, PRECIO_ROAST = 7, PRECIO_ATUN = 9, PRECIO_POLLO = 5, PRECIO_SOJA = 3, MINIMO = 15, MAXIMO = 30, CONSTANTE = (float) 0.3, SI = 'S', NO = 'N';
 
 /*
 Pre: -----------------------------
@@ -66,7 +67,7 @@ Pre: ---------------------------------------------------
 Pos: Carga la variable calentar con valores válidos como 'S' o 'N'.
 */
 void preguntar_si_calienta_comida(char* calentar){
-    while(*calentar != 'S' && *calentar != 'N'){
+    while(*calentar != SI && *calentar != NO){
         printf("¿Deseás tu chambuchito caliente? Las opciones son Si[S] o No[N]:\n");
         scanf(" %c", calentar);
     }
@@ -74,42 +75,50 @@ void preguntar_si_calienta_comida(char* calentar){
 
 /*
 Pre: ----------------------------------------------
-Pos: Carga la variable precio con valores válidos dependiendo del producto.
+Pos: Carga la variable precio con valores válidos dependiendo del producto. Si precio tiene un valor anterior, se le suma el valor actual.
 */
-void asignar_precio(char producto, float* precio){
+void sumar_al_precio(char producto, float* precio_producto){
     switch(producto){
         case BLANCO:
         case INTEGRAL:
         case DAMBO:
         case CHEDDAR:
-            *precio += PRECIO_BASICO;
+            *precio_producto += PRECIO_BASICO;
             break;
         case AVENA_MIEL:
         case QUESO_OREGANO:
         case GRUYERE:
-            *precio += PRECIO_ESPECIAL;
+            *precio_producto += PRECIO_ESPECIAL;
             break;
         case ROAST:
-            *precio += PRECIO_ROAST;
+            *precio_producto += PRECIO_ROAST;
             break;
-        case 'Y':
-            *precio += PRECIO_ATUN;
+        case AUXILIAR_2:
+            *precio_producto += PRECIO_ATUN;
             break;
         case POLLO:
-            *precio += PRECIO_POLLO;
+            *precio_producto += PRECIO_POLLO;
             break;
         case SOJA:
-            *precio += PRECIO_SOJA;
+            *precio_producto += PRECIO_SOJA;
             break;
     }
 }
 
 /*
 Pre: ----------------------------------------------
-Pos: Cambia el valor del producto (con valores que elige el usuario) por cualquier otra letra
+Pos: Cambia el valor del producto (con opciones que elige el usuario) por alguna constante auxiliar
 */
 void redefinir_valor_de_producto(char* producto, char letra){
     *producto = letra;
+}
+
+/*
+Pre: Debe recibir las variables con valores válidos
+Post: Devuelve el precio total del sandwich como dato de tipo entero
+*/
+int calcular_total(float precio, float medida){
+    return (int)((double)(precio * medida) * CONSTANTE);
 }
 
 int main(){
@@ -119,24 +128,24 @@ int main(){
     preguntar_medida_sandwich(&medida);
 
     preguntar_tipo_pan(&pan);
-    asignar_precio(pan, &precio);
+    sumar_al_precio(pan, &precio);
 
     preguntar_tipo_queso(&queso);
     if(queso == SIN_QUESO){
-        redefinir_valor_de_producto(&queso, 'X');
+        redefinir_valor_de_producto(&queso, AUXILIAR_1);
     }
-    asignar_precio(queso, &precio);
+    sumar_al_precio(queso, &precio);
 
     preguntar_tipo_proteina(&proteina);
     if(proteina == ATUN){
-        redefinir_valor_de_producto(&proteina, 'Y');
+        redefinir_valor_de_producto(&proteina, AUXILIAR_2);
     }
-    asignar_precio(proteina, &precio);
-    if(proteina != 'Y'){
+    sumar_al_precio(proteina, &precio);
+    if(proteina != AUXILIAR_2){
         preguntar_si_calienta_comida(&calentar);
     }
 
-    int total = (int)((double)(precio * medida) * 0.3);
+    int total = calcular_total(precio, medida);
     printf("El precio total es: -%i-\n", total);
 
     return 0;
