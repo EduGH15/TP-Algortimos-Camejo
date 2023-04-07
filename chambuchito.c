@@ -19,7 +19,7 @@ const float MINIMO = 15, MAXIMO = 30;
 
 /*
 Pre: -----------------------------
-Pos: Carga la variable medida con valores válidos.
+Pos: Carga la variable medida con valores válidos (números comprendidos entre 15 y 30 inclusives).
 */
 void preguntar_medida_sandwich(float* medida){
     while(*medida < MINIMO || *medida > MAXIMO){
@@ -30,7 +30,7 @@ void preguntar_medida_sandwich(float* medida){
 
 /*
 Pre: -------------------------------
-Pos: Carga la variable pan con valores válidos.
+Pos: Carga la variable pan con valores válidos como 'B', 'I', 'A', 'Q'.
 */
 void preguntar_tipo_pan(char* pan){
     while(*pan != BLANCO && *pan != INTEGRAL && *pan != AVENA_MIEL && *pan != QUESO_OREGANO){
@@ -41,7 +41,7 @@ void preguntar_tipo_pan(char* pan){
 
 /*
 Pre: -------------------------------------------
-Pos: Carga la variable queso con valores válidos.
+Pos: Carga la variable queso con valores válidos como 'D', 'C', 'G', 'S'.
 */
 void preguntar_tipo_queso(char* queso){
     while(*queso != DAMBO && *queso != CHEDDAR && *queso != GRUYERE && *queso != SIN_QUESO){
@@ -52,18 +52,18 @@ void preguntar_tipo_queso(char* queso){
 
 /*
 Pre: ------------------------------------------------
-Pos:Carga la variable proteina con valores válidos.
+Pos:Carga la variable proteina con valores válidos como 'R', 'A', 'S', 'P', 'N'.
 */
 void preguntar_tipo_proteina(char* proteina){
     while(*proteina != ROAST && *proteina != ATUN && *proteina != SOJA && *proteina != POLLO && *proteina != NADA_PROTE){
-        printf("¿Qué proteina querés en tu chambuchito? Las opciones son Roast Beef[R], Atún[A], Soja[S], Pollito[P], Nada de Prote[N]:\n");
+        printf("¿Qué proteina querés en tu chambuchito? Las opciones son Roast Beef[R], Atún[A], Soja[S], Pollito[P], Nada de Proteina[N]:\n");
         scanf(" %c", proteina);
     }
 }
 
 /*
 Pre: ---------------------------------------------------
-Pos: Carga la variable calentar con valores válidos.
+Pos: Carga la variable calentar con valores válidos como 'S' o 'N'.
 */
 void preguntar_si_calienta_comida(char* calentar){
     while(*calentar != 'S' && *calentar != 'N'){
@@ -74,7 +74,7 @@ void preguntar_si_calienta_comida(char* calentar){
 
 /*
 Pre: ----------------------------------------------
-Pos: Carga la variable precio con su valor correspondiente
+Pos: Carga la variable precio con valores válidos dependiendo del producto.
 */
 void asignar_precio(char producto, float* precio){
     switch(producto){
@@ -89,19 +89,10 @@ void asignar_precio(char producto, float* precio){
         case GRUYERE:
             *precio += PRECIO_ESPECIAL;
             break;
-    }
-}
-
-/*
-Pre: ----------------------------------------------
-Pos: Carga la variable precio con su valor correspondiente
-*/
-void asignar_precio_proteina(char producto, float* precio){
-    switch(producto){
         case ROAST:
             *precio += PRECIO_ROAST;
             break;
-        case ATUN:
+        case 'Y':
             *precio += PRECIO_ATUN;
             break;
         case POLLO:
@@ -111,6 +102,14 @@ void asignar_precio_proteina(char producto, float* precio){
             *precio += PRECIO_SOJA;
             break;
     }
+}
+
+/*
+Pre: ----------------------------------------------
+Pos: Cambia el valor del producto (con valores que elige el usuario) por cualquier otra letra
+*/
+void redefinir_valor_de_producto(char* producto, char letra){
+    *producto = letra;
 }
 
 int main(){
@@ -123,12 +122,17 @@ int main(){
     asignar_precio(pan, &precio);
 
     preguntar_tipo_queso(&queso);
+    if(queso == SIN_QUESO){
+        redefinir_valor_de_producto(&queso, 'X');
+    }
     asignar_precio(queso, &precio);
-   
+
     preguntar_tipo_proteina(&proteina);
-    asignar_precio_proteina(proteina, &precio);
-   
-    if(proteina != 'A'){
+    if(proteina == ATUN){
+        redefinir_valor_de_producto(&proteina, 'Y');
+    }
+    asignar_precio(proteina, &precio);
+    if(proteina != 'Y'){
         preguntar_si_calienta_comida(&calentar);
     }
 
